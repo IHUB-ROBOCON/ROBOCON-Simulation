@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <world name="RoboCon25">
+    <!-- Scene Settings -->
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>false</shadows>
+    </scene>
+
+    <!-- Lighting -->
+    <light type="directional" name="sun">
+      <cast_shadows>false</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <!-- Physics -->
+    <physics type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <gravity>0 0 -9.8</gravity>
+    </physics>
+
+    <!-- Green Carpet Ground -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>model://turtlebot3_world/materials/scripts/robocon25_field.material</uri>
+              <name>RoboCon/Carpet</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- White Field Lines (2cm above ground) -->
+    <model name="field_lines">
+      <static>true</static>
+      <pose>0 0 0.02 0 0 0</pose>  <!-- Increased height to prevent z-fighting -->
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>model://turtlebot3_world/materials/scripts/robocon25_field.material</uri>
+              <uri>model://turtlebot3_world/materials/textures</uri>
+              <name>RoboCon/Lines</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Debug Camera (Top-Down View) -->
+    <gui fullscreen="0">
+      <camera name="top_down_view">
+        <pose>0 0 20 0 1.57 0</pose>  <!-- 20m high, looking straight down -->
+        <view_controller>ortho</view_controller>
+      </camera>
+    </gui>
+  </world>
+</sdf>
